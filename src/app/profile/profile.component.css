@@ -1,0 +1,9 @@
+.btn {
+  width: 100%;
+  margin-bottom: 15px;
+  min-height: 50px;
+}
+.profile-detail, .profile-form {
+  max-width: 500px;
+  margin: 0 auto;
+}

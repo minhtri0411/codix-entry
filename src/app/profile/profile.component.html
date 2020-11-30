@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="profile-detail" *ngIf="!isEdit">
+    <h1 class="text-center">Profile</h1>
+    <div class="form-group">
+      <label>Nickname: {{currentUser.nickname}}</label>
+    </div>
+    <div class="form-group">
+      <label>Email: {{currentUser.emailAddress}}</label>
+    </div>
+    <div class="form-group">
+      <label>Phone: {{currentUser.phoneNumber}}</label>
+    </div>
+    <div class="form-group">
+      <label>Country: {{currentUser.country}}</label>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="showFormEdit(true)">Update Profile</button>
+  </div>
+
+  <form class="profile-form" [formGroup]="formProfile" (ngSubmit)="onSubmit()" *ngIf="isEdit">
+    <h1 class="text-center">Update Profile</h1>
+    <div class="alert alert-danger" role="alert" *ngIf="hasServerError">
+      {{errorMessage}}
+    </div>
+    <div formGroupName="pw">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+      </div>
+      <div class="alert alert-danger" role="alert"
+        *ngIf="formProfile.get('pw.password').errors && formProfile.get('pw.password').touched">
+        Password is invalid
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
+          formControlName="confirmPassword">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="(formProfile.get('pw.confirmPassword').errors ||
+      formProfile.get('pw').errors && formProfile.get('pw.confirmPassword').touched ) &&
+      formProfile.get('pw.confirmPassword').touched">
+        {{formProfile.get('pw.confirmPassword').errors ? 'Password is invalid' : 'Password is not match' }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phoneNumber">Phone number</label>
+      <input [ngModel]="currentUser.phoneNumber" type="tel" class="form-control" id="phoneNumber" placeholder="Phone Number" formControlName="phoneNumber">
+    </div>
+    <div class="alert alert-danger" role="alert"
+      *ngIf="formProfile.get('phoneNumber').errors && formProfile.get('phoneNumber').touched">
+      Phone Number is invalid
+    </div>
+    <div class="form-group">
+      <label for="country">Country</label>
+      <select [ngModel]="currentUser.country" class="form-control" id="country" formControlName="country">
+        <option *ngFor="let item of listCountry" value="{{item.name}}">{{item.name}}</option>
+      </select>
+      <div class="alert alert-danger" role="alert"
+        *ngIf="formProfile.get('country').errors && formProfile.get('country').touched">
+        Country is required
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="formProfile.invalid">Update</button>
+    <button type="button" class="btn btn-primary" (click)="showFormEdit(false)">Cancel</button>
+  </form>
+</div>

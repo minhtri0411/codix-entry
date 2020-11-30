@@ -1,0 +1,73 @@
+<div class="container">
+  <form class="register-form" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+    <h1 class="text-center">Register</h1>
+    <div class="alert alert-danger" role="alert"
+      *ngIf="hasServerError">
+        {{errorMessage}}
+      </div>
+    <div class="form-group">
+      <label for="nickname">Nickname</label>
+      <input type="text" class="form-control" id="nickname" placeholder="Nickname" formControlName="nickname">
+    </div>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="formRegister.get('nickname').errors && formRegister.get('nickname').touched">
+      Nickname is invalid or used
+    </div>
+
+    <div formGroupName="pw">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+      </div>
+      <div class="alert alert-danger" role="alert"
+      *ngIf="formRegister.get('pw.password').errors && formRegister.get('pw.password').touched">
+        Password is invalid
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
+          formControlName="confirmPassword">
+      </div>
+      <div class="alert alert-danger" role="alert"
+      *ngIf="(formRegister.get('pw.confirmPassword').errors ||
+       formRegister.get('pw').errors && formRegister.get('pw.confirmPassword').touched ) &&
+       formRegister.get('pw.confirmPassword').touched">
+       {{formRegister.get('pw.confirmPassword').errors ? 'Password is invalid' : 'Password is not match' }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="emailAddress">Email address</label>
+      <input type="email" class="form-control" id="emailAddress" placeholder="Enter email"
+        formControlName="emailAddress">
+    </div>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="formRegister.get('emailAddress').errors && formRegister.get('emailAddress').touched">
+      Email is invalid
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone number</label>
+      <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone Number"
+        formControlName="phoneNumber">
+    </div>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="formRegister.get('phoneNumber').errors && formRegister.get('phoneNumber').touched">
+      Phone Number is invalid
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country</label>
+      <select class="form-control" id="country" formControlName="country">
+        <option *ngFor="let item of listCountry"  value="{{item.name}}">{{item.name}}</option>
+      </select>
+      <div class="alert alert-danger" role="alert"
+      *ngIf="formRegister.get('country').errors && formRegister.get('country').touched">
+        Country is required
+      </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary" [disabled]="formRegister.invalid">Register</button>
+  </form>
+</div>
